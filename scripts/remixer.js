@@ -45,11 +45,36 @@ jQuery(function($){
     }
   });
 
+  // Make all videos draggable
+  $('.thumb')
+  .draggable({
+    revert: true
+  })
+
   // Make the audio/video sources droppable
   $('#audioSource, #videoSource').droppable({
-  	drop: function( event, ui ) {
-  	  $( this ).html( ui.helper )
-  	}
+    drop: function( event, ui ) {
+      var other = (this.id === 'audioSource' ? 'videoSource' : 'audioSource');
+      other = $('#' + other + ' video');
+      if (other.length) {
+        var otherSource = other.attr('class').split(' ')[0];
+      }
+      var newSource = ui.helper.attr('class').split(' ')[0];
+
+      if (newSource === otherSource) {
+        return;
+      }
+
+      if (this.firstChild) {
+        var oldVideo = $(this.firstChild);
+        var className = oldVideo.attr('class').split(' ')[0];
+        if (className) {
+          oldVideo.insertAfter($('#' + className).children().eq(0));
+        }
+      }
+
+      $( this ).html( ui.helper );
+    }
   });
   
   // Mashup the content from audio and video sources
@@ -57,30 +82,44 @@ jQuery(function($){
     var audio = Popcorn('#audioSource video'),
         audioSrc = $('#audioSource video').attr('src'),
         video = Popcorn('#videoSource video'),
-        videoSrc = $('#videoSource video').attr('src');
+        videoSrc = $('#videoSource video').attr('src'),
+        actualVideo, actualAudio;
     
-    $('<video>', {
+    function checkLoaded() {
+    	if (!actualVideo || !actualVideo.parentNode || !actualAudio || !actualAudio.parentNode) {
+    		return;
+    	} else if (actualVideo.readyState >= 4 && actualAudio.readyState >= 4) {
+    		$('#canvas').removeClass('loading');
+
+		    var newAudio = Popcorn('#newAudio'),
+        	newVideo = Popcorn('#newVideo');
+		    newAudio.play()
+		    newVideo.volume(0).play()	
+    	} else {
+    		setTimeout(checkLoaded, 10);
+    	}
+    }
+    
+    $('#mashup').html('');
+    
+    actualVideo = $('<video>', {
+      src: videoSrc,
+      id: 'newVideo'
+    })
+    .appendTo('#mashup')[0];
+
+    actualAudio = $('<video>', {
       src: audioSrc,
       id: 'newAudio'
     })
-    .appendTo('body')
+    .appendTo('#mashup')
     .css({
      display: 'none' 
-    });
+    })[0];
 
-    $('#mashup').html(
-      $('<video>', {
-        src: videoSrc,
-        id: 'newVideo'
-      })
-    )
+    $('#canvas').addClass('loading');
     
-
-    var newAudio = Popcorn('#newAudio'),
-        newVideo = Popcorn('#newVideo');
-    
-    newAudio.play()
-    newVideo.volume(0).play()
+    checkLoaded();
     
   });
   
@@ -103,10 +142,14 @@ jQuery(function($){
     var video = $('#videoSource video'),
         audio = $('#audioSource video');
 
-    $('#newAudio, #mashup video').remove()
-    audio.insertAfter($('#' + audio.attr('class').split(' ')[0]).children().eq(0))
-    video.insertAfter($('#' + video.attr('class').split(' ')[0]).children().eq(0))
-    
+    $('#newAudio, #mashup video').remove();
+    if (audio.length) {
+      audio.insertAfter($('#' + audio.attr('class').split(' ')[0]).children().eq(0));
+    }
+
+    if (video.length) {
+      video.insertAfter($('#' + video.attr('class').split(' ')[0]).children().eq(0));
+    }    
   });
   
 /*
@@ -123,6 +166,3 @@ jQuery(function($){
 
 
 });
-
-
-
