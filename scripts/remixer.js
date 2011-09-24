@@ -50,7 +50,7 @@ jQuery(function($){
   // Make all videos draggable
   $('.thumb')
   .draggable({
-    revert: true
+    revert: false
   });
 
   // Make the audio/video sources droppable
@@ -68,15 +68,20 @@ jQuery(function($){
         return;
       }
 
-      if (this.firstChild) {
-        var oldVideo = $(this.firstChild);
-        var className = oldVideo.attr('class').split(' ')[0];
-        if (className) {
-          oldVideo.insertAfter($('#' + className).children().eq(0));
-        }
+      var oldVideo = $('video.' + this.id);
+      if (oldVideo.length) {
+        oldVideo.css('position','');
+        oldVideo.css('top','');
+        oldVideo.css('left','');
+        oldVideo.removeClass(this.id);
       }
 
-      $( this ).html( ui.helper );
+      var offset = $(this).offset();
+      $( ui.helper )
+        .addClass(this.id)
+        .css('position', 'absolute')
+        .css('top', offset.top + 'px')
+        .css('left', offset.left + 'px');
     }
   });
 
@@ -140,17 +145,19 @@ jQuery(function($){
 
   // Send everything back where it came from
   $('#clearVideos').click(function( event ){
-    var video = $('#videoSource video'),
-        audio = $('#audioSource video');
-
     $('#newAudio, #mashup video').remove();
-    if (audio.length) {
-      audio.insertAfter($('#' + audio.attr('class').split(' ')[0]).children().eq(0));
-    }
-
-    if (video.length) {
-      video.insertAfter($('#' + video.attr('class').split(' ')[0]).children().eq(0));
-    }
+    
+    $('video.videoSource')
+    	.removeClass('videoSource')
+    	.css('position', '')
+    	.css('left', '')
+    	.css('top', '');
+    
+    $('video.audioSource')
+    	.removeClass('audioSource')
+    	.css('position', '')
+    	.css('left', '')
+    	.css('top', '');
   });
 
 /*
