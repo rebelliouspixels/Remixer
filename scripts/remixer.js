@@ -79,9 +79,9 @@ jQuery(function($){
   
   // Mashup the content from audio and video sources
   $('#makeMashup').click(function(){
-    var audio = Popcorn('#audioSource video'),
+    var audio = $('#audioSource video')[0],
         audioSrc = $('#audioSource video').attr('src'),
-        video = Popcorn('#videoSource video'),
+        video = $('#videoSource video')[0],
         videoSrc = $('#videoSource video').attr('src'),
         actualVideo, actualAudio;
     
@@ -91,10 +91,11 @@ jQuery(function($){
     	} else if (actualVideo.readyState >= 4 && actualAudio.readyState >= 4) {
     		$('#canvas').removeClass('loading');
 
-		    var newAudio = Popcorn('#newAudio'),
-        	newVideo = Popcorn('#newVideo');
-		    newAudio.play()
-		    newVideo.volume(0).play()	
+		    var newAudio = $('#newAudio')[0],
+				newVideo = $('#newVideo')[0];
+		    newAudio.play();
+		    newVideo.volume = 0;
+		    newVideo.play();
     	} else {
     		setTimeout(checkLoaded, 10);
     	}
