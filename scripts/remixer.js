@@ -46,7 +46,7 @@ jQuery(function($){
       }
     }
   });
-
+  
   // Make all videos draggable
   $('.thumb')
   .draggable({
@@ -87,10 +87,10 @@ jQuery(function($){
 
   // Mashup the content from audio and video sources
   $('#makeMashup').click(function(){
-    var audio = $('#audioSource video')[0],
-        audioSrc = $('#audioSource video').attr('src'),
-        video = $('#videoSource video')[0],
-        videoSrc = $('#videoSource video').attr('src'),
+    var audio = $('.audioSource')[0],
+        audioSrc = $('.audioSource').attr('src'),
+        video = $('.videoSource')[0],
+        videoSrc = $('.videoSource').attr('src'),
         actualVideo, actualAudio;
 
     function checkLoaded() {

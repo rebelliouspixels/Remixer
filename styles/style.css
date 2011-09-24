@@ -184,6 +184,6 @@ color: #DC63C2;
 background: #eee;
 }
 
-video.audioSource, video.videoSource {
+.audioSource, .videoSource {
   margin:8px;
 }
