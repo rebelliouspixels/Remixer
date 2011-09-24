@@ -171,6 +171,7 @@ jQuery(function($){
   // Send everything back where it came from
   $('#clearVideos').click(function( event ){
     $('#newAudio, #mashup video').remove();
+    $('#canvas').removeClass('loading');
     
     $('video.videoSource')
     	.removeClass('videoSource')
