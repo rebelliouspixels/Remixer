@@ -46,7 +46,7 @@ jQuery(function($){
       }
     }
   });
-
+  
   // Make all videos draggable
   $('.thumb')
   .draggable({
@@ -87,11 +87,21 @@ jQuery(function($){
 
   // Mashup the content from audio and video sources
   $('#makeMashup').click(function(){
-    var audio = $('#audioSource video')[0],
-        audioSrc = $('#audioSource video').attr('src'),
-        video = $('#videoSource video')[0],
-        videoSrc = $('#videoSource video').attr('src'),
-        actualVideo, actualAudio;
+    var audio = $('.audioSource'),
+        audioSrc = $('.audioSource').attr('src'),
+        video = $('.videoSource'),
+        videoSrc = $('.videoSource').attr('src'),
+        actualVideo, actualAudio, regex;
+    
+    if (!audio.length || !video.length) {
+    	return;
+    }
+    audio = audio[0];
+    video = video[0];
+    
+    regex = /\.png$/;
+    audioSrc = audioSrc.replace(regex, '.webm');
+    videoSrc = videoSrc.replace(regex, '.webm');
 
     function checkLoaded() {
     	if (!actualVideo || !actualVideo.parentNode || !actualAudio || !actualAudio.parentNode) {
@@ -113,13 +123,15 @@ jQuery(function($){
 
     actualVideo = $('<video>', {
       src: videoSrc,
-      id: 'newVideo'
+      id: 'newVideo',
+      preload: true
     })
     .appendTo('#mashup')[0];
 
     actualAudio = $('<video>', {
       src: audioSrc,
-      id: 'newAudio'
+      id: 'newAudio',
+      preload: true
     })
     .appendTo('#mashup')
     .css({
