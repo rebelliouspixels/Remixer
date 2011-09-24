@@ -134,13 +134,26 @@ jQuery(function($){
 
   // Swap the audio and video sources
   $('#swapVideos').click(function(){
-    var video = $('#videoSource video'),
-        audio = $('#audioSource video');
-
-        video.appendTo('#audioSource');
-        audio.appendTo('#videoSource');
-
+    var video = $('.videoSource'),
+        audio = $('.audioSource'),
+        offset;
+        
         $('#newAudio, #mashup video').remove();
+
+        offset = $('#videoSource').offset();
+        audio.removeClass('audioSource')
+          .addClass('videoSource')
+          .css('position', 'absolute')
+          .css('top', offset.top + 'px')
+          .css('left', offset.left + 'px');
+
+        offset = $('#audioSource').offset();
+        video.removeClass('videoSource')
+          .addClass('audioSource')
+          .css('position', 'absolute')
+          .css('top', offset.top + 'px')
+          .css('left', offset.left + 'px');
+
   });
 
   // Send everything back where it came from
