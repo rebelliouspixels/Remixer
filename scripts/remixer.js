@@ -50,7 +50,19 @@ jQuery(function($){
   // Make all videos draggable
   $('.thumb')
   .draggable({
-    revert: false
+    revert: false,
+    stop: function( event, ui ) {
+      //only revert if thumbnail has not been placed in a target
+      var me = ui.helper;
+
+      if (me.hasClass('videoSource') || me.hasClass('audioSource')) {
+      	return;
+      }
+      me
+        .css('position', 'relative')
+        .css('top', '')
+        .css('left', '');
+    }
   });
 
   // Make the audio/video sources droppable
@@ -70,7 +82,7 @@ jQuery(function($){
 
       var oldVideo = $('.' + this.id);
       if (oldVideo.length) {
-        oldVideo.css('position','');
+        oldVideo.css('position', 'relative')
         oldVideo.css('top','');
         oldVideo.css('left','');
         oldVideo.removeClass(this.id);
@@ -175,13 +187,13 @@ jQuery(function($){
     
     $('video.videoSource')
     	.removeClass('videoSource')
-    	.css('position', '')
+    	.css('position', 'relative')
     	.css('left', '')
     	.css('top', '');
     
     $('video.audioSource')
     	.removeClass('audioSource')
-    	.css('position', '')
+    	.css('position', 'relative')
     	.css('left', '')
     	.css('top', '');
   });
