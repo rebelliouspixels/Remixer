@@ -184,6 +184,6 @@ color: #DC63C2;
 background: #eee;
 }
 
-
-
+.audioSource, .videoSource {
+  margin:8px;
 }
