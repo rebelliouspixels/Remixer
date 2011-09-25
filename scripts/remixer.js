@@ -185,13 +185,13 @@ jQuery(function($){
     $('#newAudio, #mashup video').remove();
     $('#canvas').removeClass('loading');
     
-    $('video.videoSource')
+    $('.videoSource')
     	.removeClass('videoSource')
     	.css('position', 'relative')
     	.css('left', '')
     	.css('top', '');
     
-    $('video.audioSource')
+    $('.audioSource')
     	.removeClass('audioSource')
     	.css('position', 'relative')
     	.css('left', '')
