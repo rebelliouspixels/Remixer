@@ -70,7 +70,7 @@ jQuery(function($){
     drop: function( event, ui ) {
       var otherSource, newSource,
         other = (this.id === 'audioSource' ? 'videoSource' : 'audioSource');
-      other = $('#' + other + ' video');
+      other = $('.' + other);
       if (other.length) {
         otherSource = other.attr('class').split(' ')[0];
       }
