@@ -68,7 +68,7 @@ jQuery(function($){
         return;
       }
 
-      var oldVideo = $('video.' + this.id);
+      var oldVideo = $('.' + this.id);
       if (oldVideo.length) {
         oldVideo.css('position','');
         oldVideo.css('top','');
