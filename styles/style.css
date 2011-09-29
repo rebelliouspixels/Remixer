@@ -131,7 +131,7 @@ color: #DC63C2;
 
 #audioSource, #videoSource {
   width: 144px;
-  height: 108px;
+  height: 115px;
   text-align:center;
   background-image: url(../images/icons.png), -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop( #eeeeee), color-stop(95%, #cccccc));
   background-image: url(../images/icons.png), -webkit-linear-gradient(#eeeeee, #cccccc 95%);
