@@ -133,7 +133,7 @@ jQuery(function($){
     
     actualVideo = document.createElement('video');
     actualVideo.id = 'newVideo';
-    actualVideo.preload = true;
+    actualVideo.preload = 'auto';
 
     src = document.createElement('source');
     src.setAttribute('src', videoSrc.replace(regex, '.mp4'));
@@ -149,7 +149,7 @@ jQuery(function($){
 
     actualAudio = document.createElement('video');
     actualAudio.id = 'newAudio';
-    actualAudio.preload = true;
+    actualAudio.preload = 'auto';
     actualAudio.style.display = 'none';
 
     src = document.createElement('source');
