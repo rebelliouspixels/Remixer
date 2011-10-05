@@ -103,18 +103,8 @@ jQuery(function($){
         audioSrc = $('.audioSource').attr('src'),
         video = $('.videoSource'),
         videoSrc = $('.videoSource').attr('src'),
-        actualVideo, actualAudio, regex;
+        actualVideo, actualAudio, regex, src;
     
-    if (!audio.length || !video.length) {
-    	return;
-    }
-    audio = audio[0];
-    video = video[0];
-    
-    regex = /\.png$/;
-    audioSrc = audioSrc.replace(regex, '.webm');
-    videoSrc = videoSrc.replace(regex, '.webm');
-
     function checkLoaded() {
     	if (!actualVideo || !actualVideo.parentNode || !actualAudio || !actualAudio.parentNode) {
     		return;
@@ -131,24 +121,47 @@ jQuery(function($){
     	}
     }
 
+    if (!audio.length || !video.length) {
+    	return;
+    }
+    audio = audio[0];
+    video = video[0];
+    
+    regex = /\.(png|jpg)$/;
+
     $('#mashup').html('');
+    
+    actualVideo = document.createElement('video');
+    actualVideo.id = 'newVideo';
+    actualVideo.preload = 'auto';
 
-    actualVideo = $('<video>', {
-      src: videoSrc,
-      id: 'newVideo',
-      preload: true
-    })
-    .appendTo('#mashup')[0];
+    src = document.createElement('source');
+    src.setAttribute('src', videoSrc.replace(regex, '.mp4'));
+    src.setAttribute('type', 'video/mp4; codecs="avc1.42E01E, mp4a.40.2');
+    actualVideo.appendChild(src);
 
-    actualAudio = $('<video>', {
-      src: audioSrc,
-      id: 'newAudio',
-      preload: true
-    })
-    .appendTo('#mashup')
-    .css({
-     display: 'none'
-    })[0];
+    src = document.createElement('source');
+    src.setAttribute('src', videoSrc.replace(regex, '.webm'));
+    src.setAttribute('type', 'video/webm; codecs="vp8, vorbis');
+    actualVideo.appendChild(src);
+    $('#mashup')[0].appendChild(actualVideo);
+
+
+    actualAudio = document.createElement('video');
+    actualAudio.id = 'newAudio';
+    actualAudio.preload = 'auto';
+    actualAudio.style.display = 'none';
+
+    src = document.createElement('source');
+    src.setAttribute('src', audioSrc.replace(regex, '.mp4'));
+    src.setAttribute('type', 'video/mp4; codecs="avc1.42E01E, mp4a.40.2');
+    actualAudio.appendChild(src);
+
+    src = document.createElement('source');
+    src.setAttribute('src', audioSrc.replace(regex, '.webm'));
+    src.setAttribute('type', 'video/webm; codecs="vp8, vorbis');
+    actualAudio.appendChild(src);
+    $('#mashup')[0].appendChild(actualAudio);
 
     $('#canvas').addClass('loading');
 
